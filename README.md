@@ -1,4 +1,3 @@
-
 ## &nbsp;                       EC2 Hands-on
 
 ##### ✅ 1️⃣: What is EC2?
@@ -33,7 +32,7 @@
 
 ##### 
 
-1. ##### To create an instance
+##### 1\. To create an instance
 
 ##### 
 
@@ -166,6 +165,8 @@
 ##### 2\.# Install Apache HTTP server
 
 ##### sudo yum install httpd -y       # For Amazon Linux
+
+##### OR
 
 ##### sudo apt install apache2 -y    # For Ubuntu: 
 
