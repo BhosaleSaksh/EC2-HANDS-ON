@@ -126,21 +126,22 @@
 
 
 
-
-
-
-
 ##### ✅ 4️⃣: Connect to EC2 Instance (Using Terminal or PowerShell)
 
 ##### \# Set permissions for key file
+```bash
 
 ##### chmod 400 your-key.pem
+
+```
 
 ##### 
 
 ##### \# Connect via SSH
+```bash
 
 ##### ssh -i your-key.pem ec2-user@<EC2-Public-IP>
+```
 
 ##### 
 
