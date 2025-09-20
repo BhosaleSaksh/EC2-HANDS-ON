@@ -1,70 +1,114 @@
-CloudVerse Hands-On Guide
-EC2
-We are going to host a single static website, with our EC2 instance.
+EC2 Hands-on
+✅ 1️⃣: What is EC2?
+EC2 (Elastic Compute Cloud) is a service provided by AWS that allows us to run virtual servers in the cloud.
+We can use EC2 to host websites, run applications, or perform computation-heavy tasks.
 
-To create an instance
 
-Search for EC2 on the main console, to go to EC2 Dashboard
+✅ 2️⃣: Why Use EC2 to Host a Static Website?
+Provides full control over the virtual machine (OS, web server).
+Highly scalable and flexible.
+We can host our static website (HTML, CSS, JS files) easily.
 
-Click on Launch Instance
 
-Set the name for your server. For you to be able to easily find your own instance, name it starting with your own name.
+✅ 3️⃣: Steps for EC2 Instance Creation
+🔧 Step 1: Log in to AWS Management Console
+Go to https://aws.amazon.com
+Sign in → Services → EC2 → Launch Instance
 
-For Amazon Machine Image, select Ubuntu
+🔧 Step 2: Launch EC2 Instance
+Choose AMI (Amazon Machine Image):
+Select Amazon Linux 2 or Ubuntu Server (Free Tier eligible).
+Select Instance Type:
+Choose t2.micro or  t3.micro (Free Tier).
 
-Keep the architecture as 64-bit(x86)
+Configure Instance:
+Keep default settings.
+Add Storage:
+Default 8 GB is sufficient for a static website.
+Add Tags (Optional):
+Example: Name → MyStaticWebsiteServer
+Configure Security Group:
+Allow:
+SSH → Port 22 → Your IP (for management).
+HTTP → Port 80 → Anywhere (for website access).
+Review and Launch:
+Select or create a new key pair (.pem file) → Download it → Important for SSH access.
 
-Set the instance type as t2.micro. Make sure you see free tier eligible next to it.
 
-For key pair, Create new key pair. Again, name the key pair with your own name. Keep everything as default i.e. RSA and .pem and create
 
-Make sure you remember the folder i.e. directory in which you downloaded you private key.
+✅ 4️⃣: Connect to EC2 Instance (Using Terminal or PowerShell)
+# Set permissions for key file
+chmod 400 your-key.pem
 
-In Network Settings click Select existing security group, then select default
+# Connect via SSH
+ssh -i your-key.pem ec2-user@<EC2-Public-IP>
 
-For storage, keep it as default i.e. 8 GiB and gp3
+✅ 5️⃣: Install Web Server (Apache)
+Once connected to EC2 instance:
+# Update packages
+sudo yum update -y           # For Amazon Linux
+# or for Ubuntu: sudo apt update -y
 
-In summary, make sure number of instances is 1, then click on Launch Instance.
+# Install Apache HTTP server
+sudo yum install httpd -y   # For Amazon Linux
+# or for Ubuntu: sudo apt install apache2 -y
 
-Now in the sidebar, scroll down and go to Security Groups, and press Create security group
 
-Add name and description, again name should start with your own name.
+# Start Apache service
+sudo systemctl start httpd
 
-Under Inbound rules, click on Add Rule , then select type SSH and source as Anywhere IPv4
+# Enable Apache to start on boot
+sudo systemctl enable httpd
 
-Under Inbound rules, click on Add Rule , then select type HTTP and source as Anywhere IPv4
+✅ 6️⃣: Upload Your Static Website Files
+Option 1: Using SCP (From Local to EC2)
+scp -i your-key.pem index.html ec2-user@<EC2-Public-IP>:/home/ec2-user/
 
-⚠️ Make sure you do not modify the Outbound rules It should be enabled for All traffic on all protocols and all ports by default
+Option 2: Directly Edit on EC2
+sudo nano /var/www/html/index.html
+# Paste your HTML code
 
-Now go to EC2 Dashboard, and click on your EC2 ID to open your Instance summary.
+Move files to web server directory:
+sudo mv /home/ec2-user/index.html /var/www/html/
 
-Under Actions -> Security -> Change Security Groups
+✅ 7️⃣: Open HTTP Port in Security Group (if not already done)
+Ensure that Port 80 (HTTP) is open in the Security Group → Inbound Rules:
 
-Select your security group ( with your name), then press Add security group
 
-Optionally you can remove the default security group
+Type: HTTP → Protocol: TCP → Port Range: 80 → Source: Anywhere (0.0.0.0/0).
 
-Click Save, then go back to Instance Summary.
+✅ 8️⃣: Test the Static Website
+Open browser → Enter: http://<EC2-Public-IP>
 
-Click on Connect, then go to SSH Client tab.
+👉 You should see your hosted static website displayed.
+✅ 9️⃣: Useful Commands Recap
+Purpose
+Command
+Update packages
+sudo yum update -y    or
+ sudo apt update -y
+Install Apache
+sudo yum install httpd -y or sudo apt install apache2 -y
+Start Apache
+sudo systemctl start httpd
+Enable Apache at boot
+sudo systemctl enable httpd
+Move files to web directory
+sudo mv index.html /var/www/html/
+SSH into EC2 instance
+ssh -i your-key.pem ec2-user@<Public-IP>
+Upload files via SCP
+scp -i your-key.pem index.html ec2-user@<Public-IP>:/home/ec2-user/
 
-For Linux users, cd into the directory where your key is and then run :
 
-chmod 400 "<keyname>.pem"
-This step is not required for Windows users.
+✅ 🔟: Final Notes
+Make sure the .pem key file has correct permissions (chmod 400).
 
-Windows users should use Powershell, while Linux users can use their own terminal and shell.
-cd into the directory where your key was downloaded. Then run the command given below Example: on EC2 dashboard.
-For eg.
 
-ssh -i "sait.pem" ubuntu@ec2-11-117-211-41.ap-south-1.compute.amazonaws.com
-When it asks you to add fingerprint, type yes and press enter.
+Public IP can change if the instance is stopped/started → Use Elastic IP for a static IP if needed.
 
-You should now be placed into your VM's shell, and should see Welome to Ubuntu text. Copy the commands below and execute them in the VM's shell.
-sudo apt update
-sudo apt install curl
-curl -fsSL https://techfusion24.s3.ap-south-1.amazonaws.com/script.sh | bash
-This will install an Nginx server with a sample html file on your EC2 instance.
 
-Go to your Instance summary, then copy your Public IPv4 address, and paste them in any browser. You should see your website now hosted.
-You might need to append http:// to your IP. Then the full address would become http://<my public IP>
+EC2 is flexible for hosting not just static, but dynamic websites with databases too.
+
+
+
