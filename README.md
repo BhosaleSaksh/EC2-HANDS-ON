@@ -156,11 +156,12 @@ ssh -i your-key.pem ec2-user@<EC2-Public-IP>
 
 sudo yum update -y           # For Amazon Linux
 
-##### OR
+OR
 
-##### sudo apt update -y       # For Ubuntu
+sudo apt update -y       # For Ubuntu
 
 ```
+
 ##### 
 
 ##### 2\.# Install Apache HTTP server
@@ -179,7 +180,7 @@ sudo apt install apache2 -y    # For Ubuntu
 ##### 3\.# Start Apache service
 ```bash
 
- sudo systemctl start httpd
+sudo systemctl start httpd
 
 ```
 ##### 
@@ -187,7 +188,7 @@ sudo apt install apache2 -y    # For Ubuntu
 ##### 4\.# Enable Apache to start on boot
 ```bash
 
-##### sudo systemctl enable httpd
+sudo systemctl enable httpd
 
 ```
 
@@ -206,7 +207,8 @@ scp -i "your-key.pem" "path/to/index.html" ec2-user@<EC2-Public-IP>:/home/ec2-us
 ##### Move files to web server directory:
 ```bash
 
-##### sudo mv /home/ec2-user/index.html /var/www/html/
+sudo mv /home/ec2-user/index.html /var/www/html/
+
 ```
 
 
