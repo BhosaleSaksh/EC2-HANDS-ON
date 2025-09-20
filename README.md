@@ -34,8 +34,6 @@ HTTP → Port 80 → Anywhere (for website access).
 Review and Launch:
 Select or create a new key pair (.pem file) → Download it → Important for SSH access.
 
-
-
 ✅ 4️⃣: Connect to EC2 Instance (Using Terminal or PowerShell)
 # Set permissions for key file
 chmod 400 your-key.pem
@@ -52,7 +50,6 @@ sudo yum update -y           # For Amazon Linux
 # Install Apache HTTP server
 sudo yum install httpd -y   # For Amazon Linux
 # or for Ubuntu: sudo apt install apache2 -y
-
 
 # Start Apache service
 sudo systemctl start httpd
@@ -74,7 +71,6 @@ sudo mv /home/ec2-user/index.html /var/www/html/
 ✅ 7️⃣: Open HTTP Port in Security Group (if not already done)
 Ensure that Port 80 (HTTP) is open in the Security Group → Inbound Rules:
 
-
 Type: HTTP → Protocol: TCP → Port Range: 80 → Source: Anywhere (0.0.0.0/0).
 
 ✅ 8️⃣: Test the Static Website
@@ -82,21 +78,27 @@ Open browser → Enter: http://<EC2-Public-IP>
 
 👉 You should see your hosted static website displayed.
 ✅ 9️⃣: Useful Commands Recap
-Purpose
-Command
+Purpose Command
 Update packages
 sudo yum update -y    or
- sudo apt update -y
+sudo apt update -y
+
 Install Apache
-sudo yum install httpd -y or sudo apt install apache2 -y
+sudo yum install httpd -y   or 
+sudo apt install apache2 -y
+
 Start Apache
 sudo systemctl start httpd
+
 Enable Apache at boot
 sudo systemctl enable httpd
+
 Move files to web directory
 sudo mv index.html /var/www/html/
+
 SSH into EC2 instance
 ssh -i your-key.pem ec2-user@<Public-IP>
+
 Upload files via SCP
 scp -i your-key.pem index.html ec2-user@<Public-IP>:/home/ec2-user/
 
@@ -104,9 +106,7 @@ scp -i your-key.pem index.html ec2-user@<Public-IP>:/home/ec2-user/
 ✅ 🔟: Final Notes
 Make sure the .pem key file has correct permissions (chmod 400).
 
-
 Public IP can change if the instance is stopped/started → Use Elastic IP for a static IP if needed.
-
 
 EC2 is flexible for hosting not just static, but dynamic websites with databases too.
 
